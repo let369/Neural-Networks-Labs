@@ -71,20 +71,20 @@ for epoch = 1:n_epochs
     h_error(epoch) = sum(epoch_error)/4;%computation of the mean from the error paterns
 end
 
-% Plot functions
-% figure(1);
-% plot(log_error)
-% title('\textbf{TLU-error over epochs}', 'interpreter', 'latex', 'fontsize', 12);
-% xlabel('\# of epochs', 'interpreter', 'latex', 'fontsize', 12)
-% ylabel('Summed Squared Error', 'interpreter', 'latex', 'fontsize', 12)
-% 
-% figure(2);
-% plot(1:n_epochs,h_weights(:,1),'r-','DisplayName','weight 1')
-% hold on
-% plot(1:n_epochs,h_weights(:,2),'b-','DisplayName','weight 2')
-% plot(1:n_epochs,h_threshold,'k-','DisplayName','threshold')
-% xlabel('\# of epochs', 'interpreter', 'latex', 'fontsize', 12)
-% title('\textbf{Weight vector and threshold vs epochs}', 'interpreter', 'latex', 'fontsize', 12);
-% h = legend('location','NorthEast');
-% set(h, 'interpreter', 'latex', 'fontsize', 12);
-% hold off
+%Plot functions
+figure(1);
+plot(1:n_epochs,h_error(:,1))
+title('\textbf{TLU-error over epochs}', 'interpreter', 'latex', 'fontsize', 12);
+xlabel('\# of epochs', 'interpreter', 'latex', 'fontsize', 12)
+ylabel('Summed Squared Error', 'interpreter', 'latex', 'fontsize', 12)
+
+figure(2);
+plot(1:n_epochs,h_weights(:,1),'r-','DisplayName','weight 1')
+hold on
+plot(1:n_epochs,h_weights(:,2),'b-','DisplayName','weight 2')
+plot(1:n_epochs,h_threshold,'k-','DisplayName','threshold')
+xlabel('\# of epochs', 'interpreter', 'latex', 'fontsize', 12)
+title('\textbf{Weight vector and threshold vs epochs}', 'interpreter', 'latex', 'fontsize', 12);
+h = legend('location','NorthEast');
+set(h, 'interpreter', 'latex', 'fontsize', 12);
+hold off
