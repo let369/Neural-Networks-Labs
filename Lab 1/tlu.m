@@ -10,7 +10,7 @@ n_epochs = 100;      % the number of epochs we want to train
 examples = [0,0;0,1;1,0;1,1];
 
 % Define the corresponding target outputs
-goal = [0;0;0;1];
+goal = [0;1;1;0];
 
 % Initialize the weights and the threshold
 weights = rand(1,2);
@@ -35,37 +35,40 @@ for epoch = 1:n_epochs
     for pattern = 1:n_examples
         
         % Initialize weighted sum of inputs
-        summed_input = 0;
         summed_input = weights([1],[1]) * examples([pattern],[1])+weights([1],[2]) * examples([pattern],[2]);
         % Subtract threshold from weighted sum
         a = summed_input - threshold;
         % Compute output
-        if(a>=0)
+        if(a>=0)%if the value of a is possitive or equal to zero then we have output=1
             output = 1;
-        else
+        else%otherwise output is zero
             output = 0;
         end
-
-        if(output~= goal([pattern]))
-            new_weights = weights + learn_rate*(goal([pattern])-output).*examples(pattern,:);
-        end
-
-        % Compute error
-        error = 0;
         
+        if(output~=goal([pattern]))%if the output isnt the same with our goal we have to compute new weights threshold and error.
+            new_weights = weights + learn_rate*(goal([pattern])-output).*examples(pattern,:);
+            new_threshold = threshold + learn_rate*(goal([pattern])-output)*(-1);
+            
+        else %otherwise we keep the old values and error is zero
+            new_weights = weights;
+            new_threshold = threshold;
+
+        end
+        % Compute error
+        error = (goal([pattern])-summed_input)^2;
         % Compute delta rule
-        delta_weights = 0;
-        delta_threshold = 0;
+        delta_weights = weights + learn_rate*(goal([pattern])-summed_input).*examples(pattern,:);
+        delta_threshold = threshold + learn_rate*(goal([pattern])-summed_input)*(-1);
         
         % Update weights and threshold
         weights = new_weights;
-        %threshold = 0;        
+        threshold = new_threshold;        
     
         % Store squared error
-        epoch_error(pattern) = error.^2;
+        epoch_error(pattern) = error;%.^2 we have already computed the squared error.
     end
     
-    h_error(epoch) = sum(epoch_error);
+    h_error(epoch) = sum(epoch_error)/4;%computation of the mean from the error paterns
 end
 
 % Plot functions
