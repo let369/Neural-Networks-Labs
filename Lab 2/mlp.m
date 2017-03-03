@@ -57,9 +57,9 @@ while ~stop_criterium
         
         % Compute the output of the hidden layer (don't modify this)
         hidden_output = sigmoid(hidden_activation);
-        hidden_output
+        
         % Compute the activation of the output neurons
-        output_activation = 0;
+        output_activation = hidden_output*w_output;
         
         % Compute the output
         output = output_function(output_activation);
