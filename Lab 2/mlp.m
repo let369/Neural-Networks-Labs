@@ -12,12 +12,13 @@ plot_animation = true;
 % Parameters for the network
 learn_rate = 0.2;               % learning rate
 max_epoch = 5000;              % maximum number of epochs
+min_error = 0.01;
 
 mean_weight = 0;
 weight_spread = 1;
 
 n_input = size(examples,2);
-n_hidden = 20;
+n_hidden = 5;
 n_output = size(goal,2);
 
 % Noise level at the input
@@ -30,7 +31,6 @@ bias_value = -1;
 % Initializing the weights
 w_hidden = rand(n_input + 1, n_hidden) .* weight_spread - weight_spread/2 + mean_weight;
 w_output = rand(n_hidden, n_output) .* weight_spread - weight_spread/2 + mean_weight;
-
 % Start training
 stop_criterium = 0;
 epoch = 0;
@@ -57,39 +57,42 @@ while ~stop_criterium
         
         % Compute the output of the hidden layer (don't modify this)
         hidden_output = sigmoid(hidden_activation);
-        
+
         % Compute the activation of the output neurons
         output_activation = hidden_output*w_output;
         
         % Compute the output
         output = output_function(output_activation);
-        
+
         % Compute the error on the output
-        output_error = 0;
+        output_error = power(goal(pattern)-output,2)/2;
         
         % Compute local gradient of output layer
-        local_gradient_output = 0;
+        local_gradient_output = -(goal(pattern)-output).*output.*(1-output);
         
         % Compute the error on the hidden layer (backpropagate)
         hidden_error = 0;        
         
         % Compute local gradient of hidden layer
-        local_gradient_hidden = 0;
+        he = ones(5,1);
+        local_gradient_hidden = local_gradient_output*w_output'*(hidden_output.*(he-hidden_output));
         
         % Compute the delta rule for the output
-        delta_output = 0;
+        delta_output = learn_rate*local_gradient_output*hidden_output;
         
         % Compute the delta rule for the hidden units;
-        delta_hidden = 0;
+        delta_hidden = learn_rate.*local_gradient_hidden.*input_data(pattern,:)';
         
         % Update the weight matrices
-        w_hidden = 0;
-        w_output = 0;
+        w_hidden = w_hidden-delta_hidden;
+        w_output = w_output-delta_output';
         
         % Store data
+        stop_criterium = epoch_error + (output_error).^2;
         epoch_error = epoch_error + (output_error).^2;        
         epoch_delta_output = epoch_delta_output + sum(sum(abs(delta_output)));
         epoch_delta_hidden = epoch_delta_hidden + sum(sum(abs(delta_hidden)));
+        
     end
     
     % Log data
@@ -103,7 +106,9 @@ while ~stop_criterium
     end
     
     % Implement a stop criterion here
-    
+    if stop_criterium<min_error
+        stop_criterium = 1;
+    end
     % Plot the animation
     if and((mod(epoch,20)==0),(plot_animation))
         emp_output = zeros(21,21);
@@ -122,7 +127,6 @@ while ~stop_criterium
         zlim([0 1])        
         pause(0.01)
     end
-
 end
 
 % Plotting the error
