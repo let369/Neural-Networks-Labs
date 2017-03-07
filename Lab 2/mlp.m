@@ -18,7 +18,7 @@ mean_weight = 0;
 weight_spread = 1;
 
 n_input = size(examples,2);
-n_hidden = 5;
+n_hidden = 20;
 n_output = size(goal,2);
 
 % Noise level at the input
@@ -74,7 +74,7 @@ while ~stop_criterium
         hidden_error = 0;        
         
         % Compute local gradient of hidden layer
-        he = ones(5,1);
+        he = ones(20,1);
         local_gradient_hidden = local_gradient_output*w_output'*(hidden_output.*(he-hidden_output));
         
         % Compute the delta rule for the output
@@ -88,7 +88,6 @@ while ~stop_criterium
         w_output = w_output-delta_output';
         
         % Store data
-        stop_criterium = epoch_error + (output_error).^2;
         epoch_error = epoch_error + (output_error).^2;        
         epoch_delta_output = epoch_delta_output + sum(sum(abs(delta_output)));
         epoch_delta_hidden = epoch_delta_hidden + sum(sum(abs(delta_hidden)));
@@ -104,11 +103,8 @@ while ~stop_criterium
     if epoch > max_epoch
         stop_criterium = 1;
     end
-    
     % Implement a stop criterion here
-    if stop_criterium<min_error
-        stop_criterium = 1;
-    end
+    
     % Plot the animation
     if and((mod(epoch,20)==0),(plot_animation))
         emp_output = zeros(21,21);
