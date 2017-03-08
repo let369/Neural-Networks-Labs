@@ -1,5 +1,6 @@
 % mlp.m Implementation of the Multi-Layer Perceptron
-
+% Karamoulas Eleftherios - S3261859
+% Tzafos Panagiotis - S3302148
 clear all
 close all
 
@@ -29,8 +30,10 @@ bias_value = -1;
 
 
 % Initializing the weights
-w_hidden = rand(n_input + 1, n_hidden) .* weight_spread - weight_spread/2 + mean_weight;
-w_output = rand(n_hidden, n_output) .* weight_spread - weight_spread/2 + mean_weight;
+w_hidden = rand(n_input + 1, n_hidden) .* weight_spread - ...
+    weight_spread/2 + mean_weight;
+w_output = rand(n_hidden, n_output) .* weight_spread - ...
+    weight_spread/2 + mean_weight;
 % Start training
 stop_criterium = 0;
 epoch = 0;
@@ -68,20 +71,22 @@ while ~stop_criterium
         output_error = power(goal(pattern)-output,2)/2;
         
         % Compute local gradient of output layer
-        local_gradient_output = -(goal(pattern)-output).*output.*(1-output);
+        local_gradient_output = -(goal(pattern)-output)...
+            .*output.*(1-output);
         
         % Compute the error on the hidden layer (backpropagate)
         hidden_error = 0;        
         
         % Compute local gradient of hidden layer
-        he = ones(20,1);
-        local_gradient_hidden = local_gradient_output*w_output'*(hidden_output.*(he-hidden_output));
+        local_gradient_hidden = local_gradient_output*w_output'...
+            .*(hidden_output.*(1-hidden_output));
         
         % Compute the delta rule for the output
         delta_output = learn_rate*local_gradient_output*hidden_output;
         
         % Compute the delta rule for the hidden units;
-        delta_hidden = learn_rate.*local_gradient_hidden.*input_data(pattern,:)';
+        delta_hidden = learn_rate.*local_gradient_hidden...
+            .*input_data(pattern,:)';
         
         % Update the weight matrices
         w_hidden = w_hidden-delta_hidden;
@@ -89,8 +94,10 @@ while ~stop_criterium
         
         % Store data
         epoch_error = epoch_error + (output_error).^2;        
-        epoch_delta_output = epoch_delta_output + sum(sum(abs(delta_output)));
-        epoch_delta_hidden = epoch_delta_hidden + sum(sum(abs(delta_hidden)));
+        epoch_delta_output = epoch_delta_output + ...
+            sum(sum(abs(delta_output)));
+        epoch_delta_hidden = epoch_delta_hidden + ...
+            sum(sum(abs(delta_hidden)));
         
     end
     
@@ -104,14 +111,17 @@ while ~stop_criterium
         stop_criterium = 1;
     end
     % Implement a stop criterion here
-    
+    if h_error(epoch) < min_error
+        stop_criterium = 1;
+    end
     % Plot the animation
     if and((mod(epoch,20)==0),(plot_animation))
         emp_output = zeros(21,21);
         figure(1)
         for x1 = 1:21
             for x2 =  1:21
-                hidden_act = sigmoid([(x1/20 - 0.05) (x2/20 -0.05) bias_value] * w_hidden);
+                hidden_act = sigmoid([(x1/20 - 0.05) ...
+                        (x2/20 -0.05) bias_value] * w_hidden);
                 emp_output(x1,x2) = output_function(hidden_act * w_output);
             end
         end

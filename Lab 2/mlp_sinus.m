@@ -9,18 +9,18 @@ goal = sin(examples);
 
 % Boolean for plotting animation
 plot_animation = true;
-plot_bigger_picture = false;
+plot_bigger_picture = true;
 
 % Parameters for the network
-learn_rate = 0.1;                % learning rate
-max_epoch = 5000;              % maximum number of epochs
-
+learn_rate = 0.05;                % learning rate
+max_epoch = 20000;              % maximum number of epochs
+min_error = 0.000000001;
 
 mean_weight = 0;
 weight_spread = 1;
 
 n_input = size(examples,2);
-n_hidden = 50;
+n_hidden = 20;
 n_output = size(goal,2);
 
 % Noise level at input
@@ -29,8 +29,10 @@ noise_level = 0.01;
 bias_value = -1;
 
 % Initializing the weights
-w_hidden = rand(n_input + 1, n_hidden) .* weight_spread - weight_spread/2 + mean_weight;
-w_output = rand(n_hidden, n_output) .* weight_spread - weight_spread/2 + mean_weight;
+w_hidden = rand(n_input + 1, n_hidden) .* weight_spread - ...
+    weight_spread/2 + mean_weight;
+w_output = rand(n_hidden, n_output) .* weight_spread - ...
+    weight_spread/2 + mean_weight;
 
 % Start training
 stop_criterium = 0;
@@ -50,7 +52,49 @@ while ~stop_criterium
     epoch_delta_hidden = 0;
     epoch_delta_output = 0;
     for pattern = 1:size(input_data,1)
-       % Copy the for-loop body from mlp_2011.m
+       % Compute the activation in the hidden layer
+        hidden_activation = input_data(pattern,:)*w_hidden;
+        
+        % Compute the output of the hidden layer (don't modify this)
+        hidden_output = sigmoid(hidden_activation);
+
+        % Compute the activation of the output neurons
+        output_activation = hidden_output*w_output;
+        
+        % Compute the output
+        output = output_function_sin(output_activation);
+
+        % Compute the error on the output
+        output_error = power(goal(pattern)-output,2)/2;
+        
+        % Compute local gradient of output layer
+        local_gradient_output = -(goal(pattern)-output).*1;
+        
+        % Compute the error on the hidden layer (backpropagate)
+        hidden_error = 0;        
+        
+        % Compute local gradient of hidden layer
+        local_gradient_hidden = local_gradient_output*w_output'...
+            .*(hidden_output.*(1-hidden_output));
+        
+        % Compute the delta rule for the output
+        delta_output = learn_rate*local_gradient_output*hidden_output;
+        
+        % Compute the delta rule for the hidden units;
+        delta_hidden = learn_rate.*local_gradient_hidden...
+            .*input_data(pattern,:)';
+        
+        % Update the weight matrices
+        w_hidden = w_hidden-delta_hidden;
+        w_output = w_output-delta_output';
+        
+        % Store data
+        epoch_error = epoch_error + (output_error).^2;        
+        epoch_delta_output = epoch_delta_output + ...
+            sum(sum(abs(delta_output)));
+        epoch_delta_hidden = epoch_delta_hidden + ...
+            sum(sum(abs(delta_hidden)));
+        
     end
     
     h_error(epoch) = epoch_error / size(input_data,1);
@@ -62,7 +106,9 @@ while ~stop_criterium
     end
     
     % Add your stop criterion here
-    
+    if h_error(epoch) < min_error
+        stop_criterium = 1;
+    end
     % Plot the animation
     if and((mod(epoch,20)==0),(plot_animation))
         %out = zeros(21,1);
@@ -70,7 +116,7 @@ while ~stop_criterium
         input = linspace(0, 2 * pi, nPoints);
         for x=1:nPoints
             h_out = sigmoid([input(x) bias_value] * w_hidden);
-            out(x) = output_function(h_out * w_output); 
+            out(x) = output_function_sin(h_out * w_output); 
         end
         figure(1)
         plot(input,out,'r-','DisplayName','Output network')
@@ -107,7 +153,7 @@ if plot_bigger_picture
     in_raw = (-5:0.1:15)';
     in_raw = horzcat(in_raw,(bias_value*ones(size(in_raw))));
     h_big = sigmoid(in_raw * w_hidden);
-    o_big = output_function(h_big * w_output);
+    o_big = output_function_sin(h_big * w_output);
     
     plot(-5:0.1:15,o_big,'r-','DisplayName','Output network')
     hold on
