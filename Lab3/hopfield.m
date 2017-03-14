@@ -4,7 +4,7 @@ close all;
 
 % Initializing data and parameters
 % PARAMETERS
-n_examples = 1;             % The number of examples(0 < n_examples < 7)              
+n_examples = 3;             % The number of examples(0 < n_examples < 7)              
 n_epochs = 6;               % The number of epochs
 normalize_weights = true;   % Normalization bool
 
@@ -47,8 +47,7 @@ end
 
 % The result should be a matrix dimensions: size_examples * size_examples
 % Each entry should contain a sum of n_examples
-test = data(:,:,[1 2 3]) .* data(:,:,[1 2 3]);
-weights = squeeze(test(:,:,1));
+weights = vector_data'* vector_data;
 
 % A hopfield neuron is not connected to itself. The diagonal of the matrix
 % should be zero.
@@ -56,7 +55,7 @@ weights(logical(eye(size(weights)))) = 0;
 
 % These lines check whether the matrix is a valid weight matrix for a 
 % Hopfield network.
-assert(isequal(size(weights),[dim_x dim_y]), ...
+assert(isequal(size(weights),[size_examples size_examples]), ...
     'The matrix dimensions are invalid');
 assert(isequal(tril(weights)',triu(weights)), ...
     'The matrix is not symmetric');
@@ -122,10 +121,10 @@ for example = 1:n_examples
     
     for epoch = 1:n_epochs
         % Compute the new activation
-        activation = [];  
+        activation = weights * activation;
         
         % Apply the activation function
-        activation = [];
+        activation = activation_function(activation);
             
         % PLOTTING THE ACTIVATION
     
