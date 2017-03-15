@@ -17,7 +17,7 @@ dim_x = 5;                  % Dimensions of examples
 dim_y = 5;                    
 
 % Compute size of examples
-size_examples = dim_x * dim_y;  
+size_examples = dim_x * dim_y;
 
 % Convert percentage to fraction
 random_percentage = random_percentage/100;  
@@ -121,11 +121,11 @@ for example = 1:n_examples
     
     for epoch = 1:n_epochs
         % Compute the new activation
-        activation = weights * activation;
+        activation = weights * activation; 
         
         % Apply the activation function
         activation = activation_function(activation);
-            
+         
         % PLOTTING THE ACTIVATION
     
         % Reshape the activation such that we get a 5x5 matrix
