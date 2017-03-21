@@ -9,7 +9,7 @@ n_epochs = 6;               % The number of epochs
 normalize_weights = true;   % Normalization bool
 
 random_percentage = 25;     % Percentage of bits that are flipped randomly
-invert = false;             % Invert the input (test for spurious states) 
+invert = true;             % Invert the input (test for spurious states) 
 
 
 % Do not change these lines

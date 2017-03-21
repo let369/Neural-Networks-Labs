@@ -36,7 +36,7 @@
 \section{Code for TLU}
 \begin{enumerate}
 \item The code starts by initializing the variables like learn rate, nepochs and the tables that are going to be used later like examples, goal, weights, threshold and others that store information about our learning procedure. Then starts the first iteration of how many times our learning algorithm will run and the first values of weight and threshold are stored and then the second iteration for every possible combination of inputs. Then we calculate the weighted summation and after we subtract our threshold from it to find out which will be the output value. Next we check if the output is the desirable and if not we calculate the new weights and threshold. The next step is the computation of the error and the delta values for the weights and threshold. Before plotting the results we update the weights and threshold for the next iteration and store the error values and their mean. Finally we create two plots one for the errors and one for the evolvement of weights and threshold through time.
-\lstinputlisting[caption={tlu.m},label={code:bar}]{hopfield.m}
-\lstinputlisting[caption={tlu.m},label={code:bar}]{activation_function.m}
+\lstinputlisting[caption={hopfield.m},label={code:bar}]{hopfield.m}
+\lstinputlisting[caption={activation_function.m},label={code:bar}]{activation_function.m}
 \end{enumerate}
 \end{document}
