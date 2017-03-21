@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage[
+        a4paper,
+        left=3cm,
+        right=3cm,
+        top=3cm,
+        bottom=4cm,
+]{geometry}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{enumerate}
+\usepackage{subcaption}
+\usepackage[procnames]{listings}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage[at]{easylist}
+\title{Lab Assignement 2}
+\date{\today}
+\author{
+	Karamoulas Eleftherios - S3261859\\
+	Tzafos Panagiotis - S3302148\\
+}
+
+\begin{document}
+\maketitle
+\section{Comments for the code of Lab 2}
+After all the initializations and the definitions of constants we enter the while loop which exits when we reach the max epoch or our mean squared error drops below 0.01. In every iteration of the while loop we create noise and added to the input data then we append the bias to our matrix and restart the error, delta hidden and delta output. Next we have our for loop for every combination of inputs first of all we compute the hidden activation and the hidden output with the help of the sigmoid function then the previous output is transmitted to the output layer where we compute the output activation and the final output again with the sigmoid function. After finding the output error we go on with the backpropagation computing the local gradient output which is used to compute the local gradient hidden and both of them are used for the computation of delta hidden and delta output. Finally the two last computed values are subtracted from whidden and woutput respectively. Then we have our log matrixes that save the error values, delta output and delta hidden. Then its our 2 if statements for checking the epoch and mean squared error. Last is the code for the two plots.
+\section{Code for MLP}
+\begin{enumerate}
+\lstinputlisting[caption={mlp.m},label={code:bar}]{mlp.m}
+\lstinputlisting[caption={sigmoid.m},label={code:bar}]{sigmoid.m}
+\lstinputlisting[caption={outputfunction.m},label={code:bar}]{output_function.m}
+\end{enumerate}
+\section{Code for MLP Sinus}
+\lstinputlisting[caption={mlp sinus.m},label={code:bar}]{mlp_sinus.m}
+\lstinputlisting[caption={output function sin.m},label={code:bar}]{output_function_sin.m}
+\end{document}

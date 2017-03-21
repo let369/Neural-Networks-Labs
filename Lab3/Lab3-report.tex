@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage[
+        a4paper,
+        left=3cm,
+        right=3cm,
+        top=3cm,
+        bottom=4cm,
+]{geometry}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{enumerate}
+\usepackage{subcaption}
+\usepackage[procnames]{listings}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage[at]{easylist}
+\title{Lab Assignement 3}
+\date{\today}
+\author{
+	Karamoulas Eleftherios - S3261859\\
+	Tzafos Panagiotis - S3302148\\
+}
+
+\begin{document}
+\maketitle
+\section{Code for Hopfield network and Activation function}
+\begin{enumerate}
+\item The code starts by initializing the variables like nexamples, nepochs and other variables that have connection with our input and the way that our plots will be constructed. Next we enter our data and make some reshapes on our tables. Then we create our weight matrix by multiplying the inverted vector data with vector data and deleting the diagonal values. If normalize is true our weights get normalized by divided with nexamples that we use. After we plot the weight matrix we proceed with adding noise to our input and if invert is true we invert our input from 1 to -1 and -1 to 1. Before calculating the activations we plot our inputs and then proceed with the calculation of activation by multiplying our weights matrix with the activation which for the first iteration is the input of each example then we pass our results through the activation function. Finally we plot activation for each epoch and last the goal to compare our results.
+\lstinputlisting[caption={hopfield.m},label={code:bar}]{hopfield.m}
+\lstinputlisting[caption={activationfunction.m},label={code:bar}]{activation_function.m}
+\end{enumerate}
+\end{document}
