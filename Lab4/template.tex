@@ -52,8 +52,8 @@
 \title{Lab Assignment 4\\ {\Large Convolutional Neural Networks}}
 \date{\today}
 \author{
-	Panagiotis Tzafos (s3302148)\\
- 	Eleftherios Karamoulas(s)// 
+ 	Eleftherios Karamoulas - S3261859\\ 
+	Panagiotis Tzafos - S3302148\\
 }
 
 \lstset{style=mystyle, language=Matlab}
@@ -63,6 +63,7 @@
 \begin{enumerate}
 \item The pooling layer serves to progressively reduce the spatial size of the representation, to reduce the number of parameters and amount of computation in the network, and hence to also control overfitting(CS231n lecture). In practice, its use is to downsample its input, reducing the amount of resources that the network needs in order to perform the computations by reducing the dimensions of the input using a filter, a stride and an elementwise activation function. Also, after the downsampling it is obvious that the network will have less parameters. As a result, it will be able to generalize better in new situations and avoid overfitting(small training set error, large error for new examples). 
 \item
+Weight sharing is a very important feature, as it can dramatically reduce the number of weights(less computations). The idea behind this is that the number of unique sets of weights can be equal to the depth dimension size. This can applied because of the fact that, assuming that a single depth slice weight configuration is associated with a single feature that our network is looking for(edges, circles etc.), in every single one spatial region that the filter checks, it responsible of tracing these specific features.
 \item
 \end{enumerate}
 
