@@ -39,8 +39,8 @@ convolvedFeatures = zeros(convDim, convDim, numFilters, numImages);
     for i=1:numImages
         im = images(:,:,i);
         for j=1:numFilters
-            cw = rot90(W(:,:,j));
-            cf = conv2(im,cw,'valid')+b(j);
+            cw = W(:,:,j);
+            cf = (conv2(im,cw','valid')+b(j));
             convolvedFeatures(:,:,j,i) = 1./(1+exp(-cf));
         end
     end
