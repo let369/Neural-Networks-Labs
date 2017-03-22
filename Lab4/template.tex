@@ -67,13 +67,10 @@ Weight sharing is a very important feature, as it can dramatically reduce the nu
 \item
 \item
 \begin{enumerate}
+\item From the given data and the formula to compute the output we have that W=12, F=3, P=0 and S=1, so output = W - F + 2 * P / S + 1 = 12 - 3 + 2 * 0 / 1 + 1 =  10 and because we have 3 filters the total neurons will be 10 x 10 x 3 = 300.\\
 \item
-\item
+ The input layer is our image and if we assume that  each pixel is one neuron our input layer consists of 12 x 12 = 144 neurons and each of them will be fully connected to our neurons in the hidden layer which consists of 300 neuros. As a result the total connections between input and hidden layer will be 144 x 300 = 43200.
 \end{enumerate}
-\item
-\item a) From the given data and the formula to compute the output we have that W=12, F=3, P=0 and S=1, so output = W - F + 2 * P / S + 1 = 12 - 3 + 2 * 0 / 1 + 1 =  10 and because we have 3 filters the total neurons will be 10 x 10 x 3 = 300.\\
-\\
-b) The input layer is our image and if we assume that  each pixel is one neuron our input layer consists of 12 x 12 = 144 neurons and each of them will be fully connected to our neurons in the hidden layer which consists of 300 neuros. As a result the total connections between input and hidden layer will be 144 x 300 = 43200.
 \item This approach to solve the car decision problem is questionable because even though we can use CNN's and get a network that can decide between cars an average solution, the features that characterise the car can be subjective for different customers depending on their needs and comforts.
 \end{enumerate}
 
