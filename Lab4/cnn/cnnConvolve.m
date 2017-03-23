@@ -18,7 +18,6 @@ function convolvedFeatures = cnnConvolve(filterDim, numFilters, images, W, b)
 numImages = size(images, 3);
 imageDim = size(images, 1);
 convDim = imageDim - filterDim + 1;
-
 convolvedFeatures = zeros(convDim, convDim, numFilters, numImages);
 
 % Instructions:
@@ -39,9 +38,24 @@ convolvedFeatures = zeros(convDim, convDim, numFilters, numImages);
     for i=1:numImages
         im = images(:,:,i);
         for j=1:numFilters
-            cw = rot90(W(:,:,j));
-            cf = conv2(im,cw,'valid')+b(j);
-            convolvedFeatures(:,:,j,i) = 1./(1+exp(-cf));
+            x=1;
+            y=1;
+%             cw = rot90(W(:,:,j));
+%             cf = conv2(im,cw,'valid') + b(j);
+%             convolvedFeatures(:,:,j,i) = 1./(1+exp(-cf));
+            for k=1:convDim
+                for l=1:convDim
+                    convolvedFeatures(x,y,j,i) = 1./(1+exp(-(sum(sum(...
+                        im(k:k+filterDim-1,l:l+filterDim-1).*W(:,:,j)))+...
+                        b(j))));
+                    if(y==convDim)
+                        x=x+1;
+                        y=1;
+                    else
+                        y = y+1;
+                    end
+                end
+            end
         end
     end
 end
