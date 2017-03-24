@@ -69,10 +69,28 @@ Weight sharing is a very important feature, as it can dramatically reduce the nu
 \begin{enumerate}
 \item From the given data and the formula to compute the output we have that W=12, F=3, P=0 and S=1, so output = W - F + 2 * P / S + 1 = 12 - 3 + 2 * 0 / 1 + 1 =  10 and because we have 3 filters the total neurons will be 10 x 10 x 3 = 300.\\
 \item
- The input layer is our image and if we assume that  each pixel is one neuron our input layer consists of 12 x 12 = 144 neurons and each of them will be fully connected to our neurons in the hidden layer which consists of 300 neuros. As a result the total connections between input and hidden layer will be 144 x 300 = 43200.
+ The input layer is our image and if we assume that  each pixel is one neuron our input layer consists of 12 x 12 = 144 neurons and each of them will be fully connected to our neurons in the hidden layer which consists of 300 neuros. As a result the total connections between input and hidden layer will be 144 x 300 = 43200.\\
+\textcolor{red}{Complete subquestion about parameters}
 \end{enumerate}
 \item This approach to solve the car decision problem is questionable because even though we can use CNN's and get a network that can decide between cars an average solution, the features that characterise the car can be subjective for different customers depending on their needs and comforts.
 \end{enumerate}
-
-
+\setcounter{section}{+3}
+\section{Convolutional Layer}
+\lstinputlisting[caption={cnnConvolve.m},label={code:bar}]{cnn/cnnConvolve.m}
+\section{Mean Pooling Layer}
+\lstinputlisting[caption={cnnPool.m},label={code:bar}]{cnn/cnnPool.m}
+\section{Forward Pass}
+\lstinputlisting[caption={cnnCost.m},label={code:bar}]{cnn/cnnCost.m}
+\section{Experiments}
+\begin{enumerate}
+\item \textcolor{red}{Question 1}
+\item In the beginning of the training we see that our filters look like random noise patches but as our training progresses we see that the filters achieve more structure and finally after 3 epochs we can see clearly on them shapes e.g.(lines, angles, curves) that they can recognize on images that we feed to our network.
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=1\textwidth]{filters.png}
+    \caption{Filters after 3 epochs}
+    \label{fig:picture}
+  \end{figure}
+\item Our network accuracy after 3 epochs is 97.24\%
+\end{enumerate}
 \end{document}

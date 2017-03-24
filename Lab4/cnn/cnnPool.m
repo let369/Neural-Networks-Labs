@@ -34,7 +34,8 @@ pooledFeatures = zeros(convolvedDim / poolDim, ...
             y=1;
             for k=1:poolDim:convolvedDim
                 for l=1:poolDim:convolvedDim
-                    pooledFeatures(x,y,j,i) = mean2(convolvedFeatures(k:k+poolDim-1,l:l+poolDim-1,j,i));
+                    pooledFeatures(x,y,j,i) = mean2(convolvedFeatures...
+                        (k:k+poolDim-1,l:l+poolDim-1,j,i));
                     if(y==(convolvedDim / poolDim))
                         x=x+1;
                         y=1;
