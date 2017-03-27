@@ -79,7 +79,8 @@ activationsPooled = cnnPool(poolDim,activations);
 % for Softmax layer
 %%% REPLACE THE FOLLOWING LINE %%%
 activationsPooled = reshape(activationsPooled,[],numImages);
-
+%alternative way
+%activationsPooled = reshape(activationsPooled, outputDim*outputDim*numFilters, numImages);
 %% Softmax Layer
 %  Forward propagate the pooled activations calculated above into a
 %  standard softmax layer. For your convenience we have reshaped

@@ -37,8 +37,7 @@ for i = 1:numImages
                 %poolDim from the starting position but not from the ending
                 %position so we are configuring the range like this. Also
                 %in the starting position we are adding 1 since in matlab
-                %the counting starts from 1. We use the same formula in
-                %both dimensions.
+                %the counting starts from 1.
             	temp_matrix = convolvedFeatures((z*poolDim)-poolDim+1:z*poolDim, ...
                     (y*poolDim)-poolDim+1:y*poolDim,j,i);
                 pooledFeatures(z,y,j,i) = mean2(temp_matrix);
@@ -46,7 +45,6 @@ for i = 1:numImages
         end                
     end
 end
-
 %alternative way
 %%% Add code here
 %     for i=1:numImages
