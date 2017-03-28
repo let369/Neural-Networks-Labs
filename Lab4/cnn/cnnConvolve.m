@@ -40,7 +40,7 @@ convolvedFeatures = zeros(convDim, convDim, numFilters, numImages);
         for j=1:numFilters
             cw = rot90(W(:,:,j),2);
             cf = conv2(im,cw,'valid') + b(j);
-            convolvedFeatures(:,:,j,i) = 1./(1+exp(-cf));
+            convolvedFeatures(:,:,j,i) = sigmoid(cf);
         end
     end
 end
